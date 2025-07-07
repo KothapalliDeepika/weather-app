@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" contents="width=device-width, initial-scale=1.0">
+        <title>weather App - Easy Tutorials</title>
+        <style>
+            *{
+    margin:0;
+    padding:0;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+body{
+    background:#222;
+}
+.card{
+    width: 90%;
+    max-width: 470px;
+    background: linear-gradient(135deg,#00feba,#5b548a);
+    color: #fff;
+    margin: 100px auto 0;
+    border-radius: 20px;
+    padding: 40px 35px;
+    text-align: center;
+}
+.search{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search input{
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    color: #555;
+    padding: 10px 25px;
+    height: 60px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+}
+.search button{
+    border: 0;
+    outline: 0;
+    background: #ebfffc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+.search button img{
+    width: 16px;
+}
+.weather-icon{
+    width: 170px;
+    margin-top: 30px;
+}
+.weather h1{
+    font-size: 80px;
+    font-weight: 500;
+}
+.weather h2{
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: -10px;
+}
+.details{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:0 20px;
+    margin-top: 50px;
+}
+.col{
+    display:flex;
+    align-items: center;
+    text-align: left;
+}
+.col img{
+    width: 40px;
+    margin-right: 10px;
+}
+.humidity,.wind{
+    font-size: 28px;
+    margin-top: -6px;
+}
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <div class="search">
+                <input type="text" placeholder="enter city name"
+                spellchecks="false">
+                <button><img src="https://img.freepik.com/free-photo/search-icon-front-side-white-background_187299-40205.jpg?size=338&ext=jpg&ga=GA1.1.553209589.1714780800&semt=ais"></button>
+            </div>
+            <div class="weather">
+                <img src="https://static.vecteezy.com/system/resources/previews/010/989/526/non_2x/rainy-weather-3d-rendering-isolated-on-transparent-background-ui-ux-icon-design-web-and-app-trend-png.png" class="weather-icon">
+                <h1 class="temp">22°c</h1>
+                <h2 class="city">New York</h2>
+                <div class="details">
+                    <div class="col">
+                        <img src="https://static-00.iconduck.com/assets.00/humidity-icon-512x419-5m7ztixz.png">
+                        <div>
+                            <p class="humidity">50%</p>
+                            <p>Humidity</p> 
+                        </div>
+                    </div>
+                    <div class="col">
+                        <img src="https://media.gettyimages.com/id/1347708317/vector/wind-weather-thin-line-icon.jpg?s=612x612&w=gi&k=20&c=ZvHIqd14rwxIsCfRNzJZdYj8k8XjVEJdVZx0QYlh6WI=">
+                        <div>
+                            <p class="wind">15 km/h</p>
+                            <p>wind speed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<script>
+        const apikey = "35856552a9568e48b9d9d6df2d709dee";
+        const apiurl = "https://api.openweathermap.org/data/2.5/weather?q=germany&appid=35856552a9568e48b9d9d6df2d709dee&units=metric";
+        const searchBox = document.querySelector(".search input");
+        const searchBtn = document.querySelector(".search button");
+        const weatherIcon = document.querySelector(".weather-icon");
+        async function checkWeather(city){
+            const response = await fetch(apiurl + city + '&appid=${apikey}');
+            var data = await response.json();
+            console.log(data);
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+            document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+            document.querySelector(".wind").innerHTML = data.wind.speed + " km/h ";
+            if(data.weather[0].main == "clouds"){
+                weatherIcon.src = "https://pics.craiyon.com/2023-08-03/ce3c93c43ae4455f960a95bd432e6af8.webp";
+            }
+            else if(data.weather[0].main == "clear"){
+                weatherIcon.src = "https://img.freepik.com/free-psd/3d-icon-weather-conditions-with-rain-sun_23-2150108737.jpg?size=338&ext=jpg&ga=GA1.1.1224184972.1714694400&semt=ais";
+            }
+        }
+        searchBtn.addEventListener("click",()=>{
+         checkWeather(searchBox.value);
+        })
+        
+</script>
+    </body>
+</html>
